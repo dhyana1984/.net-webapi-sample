@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebAPISample.Filter;
 using WebAPISample.IRepository;
 using WebAPISample.Models;
 using WebAPISample.Repository;
@@ -61,15 +62,23 @@ namespace WebAPISample.Controllers
                   p => string.Equals(p.Category, category, StringComparison.OrdinalIgnoreCase));
         }
 
+        [ModelValidationFilter]
         public HttpResponseMessage PostProduct(Product item)
         {
-            item = repository.Add(item);
-            var response = Request.CreateResponse<Product>(HttpStatusCode.Created, item); //响应Http201，Created.CreateResponse 方法将会创建 HttpResponseMessage，并自动将 Product 对象的序列化表示形式写入到响应消息的正文中。
-            string uri = Url.Link("DefaultApi", new { id = item.Id });
-            response.Headers.Location = new Uri(uri);                                     //在响应标头中包含新增的产品uri
-            return response;                                                              //此方法返回类型现在是HttpResponseMessage。
-                                                                                          //通过返回HttpResponseMessage而不是产品，
-                                                                                          //我们可以控制的 HTTP 响应消息，包括状态代码和位置标头的详细信息。
+            //if (ModelState.IsValid) //模型验证
+            //{
+                item = repository.Add(item);
+                var response = Request.CreateResponse<Product>(HttpStatusCode.Created, item); //响应Http201，Created.CreateResponse 方法将会创建 HttpResponseMessage，并自动将 Product 对象的序列化表示形式写入到响应消息的正文中。
+                string uri = Url.Link("DefaultApi", new { id = item.Id });
+                response.Headers.Location = new Uri(uri);                                     //在响应标头中包含新增的产品uri
+                return response;                                                              //此方法返回类型现在是HttpResponseMessage。
+                                                                                              //通过返回HttpResponseMessage而不是产品，
+                                                                                              //我们可以控制的 HTTP 响应消息，包括状态代码和位置标头的详细信息。
+            //}
+            //else
+            //{
+            //    return new HttpResponseMessage(HttpStatusCode.BadRequest);                  //模型验证不通过返回badrequest
+            //}
         }
 
         public void PutProduct(int id, Product product)
