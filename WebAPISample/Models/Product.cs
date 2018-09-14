@@ -9,7 +9,7 @@ namespace WebAPISample.Models
         [Required]
         public string Name { get; set; }
         public string Category { get; set; }
-        [Required,Range(0, 10)]
+        [Required,Range(0, 20)]
         public decimal? Price { get; set; }
     }
 
