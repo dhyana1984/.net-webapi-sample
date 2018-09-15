@@ -19,6 +19,7 @@ namespace WebAPISample.Models
         {
         }
 
-        public System.Data.Entity.DbSet<WebAPISample.Models.Product> Products { get; set; }
+      public  DbSet<Product> Products { get; set; }
+      public  DbSet<Supplier> Suppliers { get; set; }
     }
 }

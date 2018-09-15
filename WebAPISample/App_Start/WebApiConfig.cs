@@ -39,6 +39,7 @@ namespace WebAPISample
 
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<Product>("ProductsSet");
+            builder.EntitySet<Supplier>("SuppliersSet");
             //第一个参数是一个路由的名称。你的服务的客户端看不到这个名称的
             //第二个参数是终结点URL的前缀
             //针对产品实体集的URL是http://hostname/odata/ProductSet
